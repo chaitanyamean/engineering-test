@@ -5,6 +5,8 @@ import "index.css"
 import * as serviceWorker from "shared/helpers/service-worker"
 import StaffApp from "staff-app/app"
 import { GlobalStyle } from "shared/styles/global-style"
+import { Provider } from 'react-redux'
+import {store} from './redux/store'
 
 const Home: React.FC = () => {
   return (
@@ -18,6 +20,7 @@ const Home: React.FC = () => {
 }
 
 ReactDOM.render(
+  <Provider store={store}>
   <React.StrictMode>
     <GlobalStyle />
     <BrowserRouter>
@@ -26,7 +29,8 @@ ReactDOM.render(
         <Route path="staff/*" element={<StaffApp />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
+  </Provider>,
   document.getElementById("root")
 )
 
