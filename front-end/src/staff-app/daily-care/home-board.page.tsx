@@ -10,8 +10,8 @@ import { Person } from "shared/models/person"
 import { useApi } from "shared/hooks/use-api"
 import { StudentListTile } from "staff-app/components/student-list-tile/student-list-tile.component"
 import { ActiveRollOverlay, ActiveRollAction } from "staff-app/components/active-roll-overlay/active-roll-overlay.component"
-import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import { useDispatch, useSelector } from "react-redux";
+import { SEARCH_TEXT,GET_ALL_DATA } from '../../redux/actions'
 
 export const HomeBoardPage: React.FC = () => {
   const [isRollMode, setIsRollMode] = useState(false)
@@ -24,13 +24,12 @@ export const HomeBoardPage: React.FC = () => {
     return state
 })
 
-console.log(res)
-  
+const user = res.user;
+
   useEffect(() => {
     void getStudents({ type: '' })
   }, [getStudents])
 
-  const searchAPIDebounced = AwesomeDebouncePromise(getStudents, 500);
 
   const onToolbarAction = (action: ToolbarAction, value?: string) => {
     if (action === "roll") {
@@ -43,18 +42,16 @@ console.log(res)
   const onActiveRollAction = (action: ActiveRollAction) => {
     if (action === "exit") {
       setIsRollMode(false)
+      dispatch({type: GET_ALL_DATA, payload: ''})
     }
-    console.log(action)
 
   }
 
   const onSearchAction = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(data?.students)
 
     if(e) {
       let target = e.target.value;
-      console.log(target)
-      await searchAPIDebounced({type: 'search', key: target})
+      dispatch({type: SEARCH_TEXT, payload: target})
     }
   }
 
@@ -69,9 +66,9 @@ console.log(res)
           </CenteredContainer>
         )}
 
-        {loadState === "loaded"  && res?.studentList && (
+        {loadState === "loaded"  && user?.studentList && (
           <>
-            {res?.studentList.map((s: any) => (
+            {user?.studentList.map((s: any) => (
               <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />
             ))}
           </>
@@ -108,8 +105,8 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
         </div>
         <div>
           Second Name
-          <FontAwesomeIcon onClick={() => onItemClick("sort", "ASC-SECOND")} style={{ cursor: "pointer" }}  icon="sort-alpha-up" size="1x" />
-          <FontAwesomeIcon onClick={() => onItemClick("sort", "DES-SECOND")} style={{ cursor: "pointer" }}  icon="sort-alpha-down" size="1x" />
+          <FontAwesomeIcon onClick={() => onItemClick("sort", "ASC_SECOND")} style={{ cursor: "pointer" }}  icon="sort-alpha-up" size="1x" />
+          <FontAwesomeIcon onClick={() => onItemClick("sort", "DES_SECOND")} style={{ cursor: "pointer" }}  icon="sort-alpha-down" size="1x" />
         </div>
 
       </div>

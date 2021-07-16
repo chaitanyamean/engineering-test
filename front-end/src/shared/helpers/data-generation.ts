@@ -1,6 +1,6 @@
 import { getRandomInt, generateRange } from "shared/helpers/math-utils"
 
-const nameTokens = ["Alan", "John", "Brandon", "Key", "Branda", "Morris", "Carlos", "Lee"]
+const nameTokens = ["Alan", "John", "Brandon", "Key", "Branda", "Morris", "Carlos", "Zee"]
 
 export function generateStudent(id: number) {
   return {

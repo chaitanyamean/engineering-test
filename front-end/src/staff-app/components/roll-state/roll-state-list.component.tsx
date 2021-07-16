@@ -4,18 +4,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { RollStateIcon } from "staff-app/components/roll-state/roll-state-icon.component"
 import { Spacing, FontWeight } from "shared/styles/styles"
 import { RolllStateType } from "shared/models/roll"
-
+import { FILTER_BY_ROLL_STATE } from "redux/actions"
+import { useDispatch } from 'react-redux';
 interface Props {
   stateList: StateList[]
+  rollList: RollItem[]
   onItemClick?: (type: ItemType) => void
   size?: number
+  rollClick?: (type: any) => void
 }
-export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemClick }) => {
+export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemClick, rollList }) => {
+  const dispatch = useDispatch();
   const onClick = (type: ItemType) => {
-    if (onItemClick) {
-      onItemClick(type)
-    }
+      let filteredState = rollList.filter((item: RollItem) => {
+      if (item.rollNext === type) {
+          return item.studentId
+      }
+    })
+    dispatch({type: FILTER_BY_ROLL_STATE, payload: filteredState})
   }
+
 
   return (
     <S.ListContainer>
@@ -60,6 +68,11 @@ const S = {
 interface StateList {
   type: ItemType
   count: number
+}
+
+interface RollItem {
+  studentId: number;
+  rollNext: string
 }
 
 type ItemType = RolllStateType | "all"
