@@ -7,16 +7,12 @@ import {
   
   import {get, LocalStorageKey} from '../shared/helpers/local-storage'
   
-  console.log(get(LocalStorageKey.students))
-//   let studentList = get(LocalStorageKey.students)
 
 const initialState = {
     rollList: []
 }
   
   function rollReducer(state = initialState, action) {
-    //   console.log(state);
-    //   console.log(action)
     switch(action.type) {
         case ADD_NEW_ROLL: {
             

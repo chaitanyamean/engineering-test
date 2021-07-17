@@ -21,7 +21,11 @@ export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemCli
           return item.studentId
       }
     })
-    dispatch({type: FILTER_BY_ROLL_STATE, payload: filteredState})
+    const payload = {
+      filteredState,
+      type
+    }
+    dispatch({type: FILTER_BY_ROLL_STATE, payload: payload})
   }
 
 

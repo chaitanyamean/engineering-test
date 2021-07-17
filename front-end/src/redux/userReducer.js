@@ -11,7 +11,7 @@ import {get, LocalStorageKey} from '../shared/helpers/local-storage'
 
 let studentList = get(LocalStorageKey.students)
 
-function reducer(state = {studentList}, action) {
+function userReducer(state = {studentList}, action) {
   switch (action.type) {
 
     case ASC_FIRST : {
@@ -56,7 +56,7 @@ function reducer(state = {studentList}, action) {
     }
 
     case FILTER_BY_ROLL_STATE: {
-      let filteredArray = action.payload;
+      let filteredArray = action.payload.filteredState;
       let finalData =[];
       if(filteredArray && filteredArray.length > 0) {
         for(let item of filteredArray) {
@@ -66,7 +66,11 @@ function reducer(state = {studentList}, action) {
           }
         }
       } else {
-        finalData = studentList;
+        if(action.payload.type === 'all') {
+          finalData = studentList;
+        } else {
+          finalData = [];
+        }
       }
     let newState = {
       ...state,
@@ -103,4 +107,4 @@ function sort(data, name) {
   return data
 }
 
-export default reducer;
+export default userReducer;
